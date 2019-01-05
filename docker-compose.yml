@@ -1,0 +1,16 @@
+version: '2'
+services:
+  mosca:
+    image: matteocollina/mosca
+    ports:
+        - "127.0.0.1:8080:80"
+        - "127.0.0.1:1883:1883"
+
+  random-sensors:
+    build: .
+    environment:
+      - BROKER_ADDRESS=mqtt://mosca
+    depends_on:
+      - mosca
+    volumes:
+        - ".:/usr/src/app"
